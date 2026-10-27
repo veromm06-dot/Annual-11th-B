@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Annual Plan 2027 - Colegio Montano</title>
+    <style>
+        :root {
+            --azul-principal: #1F3C88;
+            --azul-secundario: #3F72AF;
+            --blanco: #FFFFFF;
+            --amarillo-acento: #F2C94C;
+            --gris-fondo: #F4F6F9;
+            --texto-oscuro: #2C3E50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-fondo);
+            color: var(--texto-oscuro);
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            background-color: var(--gris-fondo);
+        }
+
+        .header-bar {
+            background-color: var(--azul-principal);
+            color: var(--blanco);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-img {
+            max-height: 50px;
+            width: auto;
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--blanco);
+            margin-bottom: 2px;
+        }
+
+        .header-subtext {
+            font-size: 0.85rem;
+            color: #E0E6ED;
+        }
+
+        .fullscreen-btn {
+            background-color: var(--amarillo-acento);
+            color: var(--azul-principal);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .fullscreen-btn:hover {
+            background-color: #E5B83B;
+            transform: translateY(-1px);
+        }
+
+        .nav-tabs {
+            display: flex;
+            background-color: var(--azul-secundario);
+            overflow-x: auto;
+            padding: 0 10px;
+            white-space: nowrap;
+        }
+
+        .tab-btn {
+            background-color: transparent;
+            color: var(--blanco);
+            border: none;
+            padding: 14px 20px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 4px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn.active {
+            background-color: var(--blanco);
+            color: var(--azul-principal);
+            border-bottom: 4px solid var(--amarillo-acento);
+            font-weight: bold;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .tab-content {
+            display: none;
+            background-color: var(--blanco);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-heading {
+            color: var(--azul-principal);
+            border-bottom: 2px solid var(--azul-secundario);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .italic-title {
+            font-style: italic;
+            color: var(--azul-principal);
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        .italic-text {
+            font-style: italic;
+        }
+
+        p, li {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: #F8FAFC;
+            border-left: 4px solid var(--azul-secundario);
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .card-cm {
+            border-left: 4px solid var(--amarillo-acento);
+            background: #FFFDF5;
+        }
+
+        .unit-badge {
+            background-color: var(--azul-principal);
+            color: var(--blanco);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #E2E8F0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--azul-principal);
+            color: var(--blanco);
+        }
+
+        tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container" id="dashboard">
+        <!-- TOP BAR & INSTITUTIONAL INFORMATION -->
+        <div class="header-bar">
+            <div class="header-left">
+                <img src="https://admisiones.colegiomontano.edu.gt/assets/img/logo-cm-blanco.webp" alt="Colegio Montano" class="logo-img">
+                <div class="header-info">
+                    <span class="header-title">INTERACTIVE ANNUAL PLAN 2027</span>
+                    <span class="header-subtext"><i>Course:</i> English Intermediate | <i>Grade:</i> 11th HS / Compu / Marketing | <i>Teacher:</i> Mrs. Verónica Menéndez | <i>School Year:</i> 2027</span>
+                </div>
+            </div>
+            <button class="fullscreen-btn" onclick="toggleFullscreen()">
+                <span>🖥️</span> <i>Full Screen</i>
+            </button>
+        </div>
+
+        <!-- NAVIGATION TABS -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('tab1')"><i>I) Description</i></button>
+            <button class="tab-btn" onclick="switchTab('tab2')"><i>II) Objectives</i></button>
+            <button class="tab-btn" onclick="switchTab('tab3')"><i>III) Competencies</i></button>
+            <button class="tab-btn" onclick="switchTab('tab4')"><i>IV) Indicators</i></button>
+            <button class="tab-btn" onclick="switchTab('tab5')"><i>V) Didactic Methods</i></button>
+            <button class="tab-btn" onclick="switchTab('tab6')"><i>VI) Bibliography</i></button>
+            <button class="tab-btn" onclick="switchTab('tab7')"><i>VII) Contents</i></button>
+        </div>
+
+        <!-- CONTENT AREA -->
+        <div class="content-area">
+            
+            <!-- I) COURSE DESCRIPTION -->
+            <div id="tab1" class="tab-content active">
+                <h2 class="section-heading"><i>I) Course Description</i></h2>
+                <div class="card">
+                    <span class="italic-title">Area Purpose and General Aim</span>
+                    <p>English is a course which seeks for an advanced development in the English language by applying the four skills and key principles like:</p>
+                    <ul>
+                        <li>Inquiry-based learning</li>
+                        <li>Student-centered learning</li>
+                        <li>Explore global values</li>
+                        <li>Focus on thinking, not memorizing</li>
+                        <li>Build strong student-teacher relationships</li>
+                        <li>Take time to reflect</li>
+                        <li>Make connections with new knowledge</li>
+                        <li>Cooperation and synergy</li>
+                    </ul>
+                    <p>It is divided into ten lessons which include Reading to learn, language in use, life skills, and writing. Every unit also contains a project to develop according to different topics and contexts.</p>
+                </div>
+            </div>
+
+            <!-- II) GENERAL OBJECTIVES -->
+            <div id="tab2" class="tab-content">
+                <h2 class="section-heading"><i>II) General Objectives</i></h2>
+                <div class="card">
+                    <span class="italic-title">Understanding Reality and Critical Thinking</span>
+                    <ul>
+                        <li>To improve Reading skills.</li>
+                        <li>To apply Academic Word Lists (AWL) in different prepared activities.</li>
+                        <li>To improve Listening skills.</li>
+                        <li>To improve Speaking skills and speech delivery.</li>
+                        <li>To improve Writing skills.</li>
+                        <li>To synergize applying the different skills, taking advantage of Oxford Discover Futures 5.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- III) COMPETENCIES -->
+            <div id="tab3" class="tab-content">
+                <h2 class="section-heading"><i>III) Competencies</i></h2>
+                
+                <span class="italic-title">1. Academic Competencies of the Area</span>
+                <div class="card">
+                    <ul>
+                        <li>Engages in conversations exchanging information, opinions, and ideas about general, personal, and figurative topics.</li>
+                        <li>Produces oral or written texts based on previous authors or scientific readings with proper vocabulary and grammar structures.</li>
+                        <li>Applies in his/her relationships with others an understanding of cultural practices other than his/her own.</li>
+                    </ul>
+                </div>
+
+                <span class="italic-title">2. Colegio Montano Institutional Competencies (Fixed Integration)</span>
+                <div class="grid-2">
+                    <div class="card card-cm">
+                        <span class="italic-title">Critical Thinking and Problem Solving</span>
+                        <p>Reflective analysis, inquiry-based learning, and solving complex dilemmas through collaborative projects.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Collaboration and Teamwork</span>
+                        <p>Synergy and cooperative work assigned with defined roles under the principle "all for one and one for all".</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Digital Competencies</span>
+                        <p>Efficient management of the Canvas platform, digital media design, and social media campaign creation.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Effective Communication</span>
+                        <p>Speech delivery in public speaking environments and written production of persuasive and process essays.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Creativity and Innovation</span>
+                        <p>Creation of promotional leaflets, group solutions, and creative initiatives for community projects.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Autonomous Learning and Adaptability</span>
+                        <p>Time management, growth mindset development, and flexibility when facing changing learning situations.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Global and Cultural Awareness</span>
+                        <p>Exploration of global values, cultural comparisons, and appreciation of idiomatic expressions across target cultures.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Ethics and Digital Citizenship</span>
+                        <p>Responsible social media use and accurate citation in research and writing tasks.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Emotional Management and Resilience</span>
+                        <p>Projects focused on mental health care, empathetic interpersonal communication, and constructive conflict resolution.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Ecological Awareness and Sustainability</span>
+                        <p>Critical analysis of animal welfare, environmental conservation, and deep-sea exploration.</p>
+                    </div>
+                    <div class="card card-cm">
+                        <span class="italic-title">Leadership Roles Performance</span>
+                        <p>Rotational leadership assignments for debate moderation, group project management, and peer feedback.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IV) ACHIEVEMENT INDICATORS -->
+            <div id="tab4" class="tab-content">
+                <h2 class="section-heading"><i>IV) Achievement Indicators</i></h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i>Academic Competency</i></th>
+                            <th><i>Achievement Indicator</i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Engages in conversations exchanging information, opinions, and ideas about general, personal, and figurative topics.</td>
+                            <td>
+                                <ul>
+                                    <li>Offers and responds to greetings, compliments, invitations, introductions, and farewells.</li>
+                                    <li>Makes appropriate use of language for informative and communicative purposes.</li>
+                                    <li>Expresses ideas and opinions about a variety of topics.</li>
+                                    <li>Shares feelings and interests through different activities.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Produces oral or written texts based on previous authors or scientific readings with proper vocabulary and grammar structures.</td>
+                            <td>
+                                <ul>
+                                    <li>Retrieves information from authors and scientific readings.</li>
+                                    <li>Identifies and uses linguistic elements of English that do not translate literally and compares them to Spanish equivalents.</li>
+                                    <li>Reads and follows directions from printed materials, graphics, and maps.</li>
+                                    <li>Uses accurate grammar and spelling when reading or writing.</li>
+                                    <li>Expresses actions using different tenses correctly.</li>
+                                    <li>Presents information, concepts, feelings, and ideas to an audience of listeners or readers.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Applies in his/her relationships with others an understanding of cultural practices other than his/her own.</td>
+                            <td>
+                                <ul>
+                                    <li>Recognizes and uses gestures, manners, behaviors, greetings, and idiomatic expressions.</li>
+                                    <li>Compares cultures through commercial practices, activities, and preferences.</li>
+                                    <li>Explores practices and perspectives of contemporary life in target cultures using electronic materials and artifacts.</li>
+                                    <li>Identifies cultural products, practices, and perspectives that lead to valid generalizations.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- V) DIDACTIC METHODS -->
+            <div id="tab5" class="tab-content">
+                <h2 class="section-heading"><i>V) Didactic Methods (Institutional Model)</i></h2>
+                
+                <div class="card card-cm">
+                    <span class="italic-title">Double Period Model (70 Minutes)</span>
+                    <ul>
+                        <li><span class="italic-text">Engaging Introduction:</span> Prior knowledge activation through icebreakers, energizers, and brainstorming.</li>
+                        <li><span class="italic-text">Individual Work:</span> Development of individual student potential, analytical skills, and language competencies.</li>
+                        <li><span class="italic-text">Teamwork:</span> Continuous interaction with assigned roles under the principle "all for one and one for all".</li>
+                        <li><span class="italic-text">Plenary & Debrief:</span> Public presentations, structured debates, Socratic dialogue, and flipped classroom discussions.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="italic-title">Key Methodologies Applied in Class</span>
+                    <ul>
+                        <li><span class="italic-text">The Four Moments Methodology & Flipped Classroom:</span> Preparatory reading at home to maximize practical, active learning in class.</li>
+                        <li><span class="italic-text">Constructivism:</span> The student acts as the primary protagonist in constructing their own knowledge.</li>
+                        <li><span class="italic-text">Speech Presentations:</span> Structured public speaking environments aimed at building fluency, clarity, and argumentative skills.</li>
+                        <li><span class="italic-text">Project-Based Learning (PBL):</span> Real-world, collaborative projects integrated into each instructional unit.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VI) BIBLIOGRAPHY -->
+            <div id="tab6" class="tab-content">
+                <h2 class="section-heading"><i>VI) Bibliography & Resources</i></h2>
+                <div class="card">
+                    <ul>
+                        <li><span class="italic-text">Course Textbook:</span> Oxford Discover Futures 5.</li>
+                        <li><span class="italic-text">Digital Platform:</span> Canvas Course (Colegio Montano).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VII) CONTENTS -->
+            <div id="tab7" class="tab-content">
+                <h2 class="section-heading"><i>VII) Thematic Sequence by Units</i></h2>
+                
+                <div class="card">
+                    <span class="unit-badge"><i>UNIT I</i></span>
+                    <span class="italic-title">Topics & Strategies</span>
+                    <ul>
+                        <li><span class="italic-text">Why are animals important?</span> Reading strategy: Identifying tone. Grammar: Talking about things in general / Making comparisons. Listening: Listening to summarize an argument. Writing: Generating ideas and supporting opinions (Language point: Signpost language to paraphrase or clarify).</li>
+                        <li><span class="italic-text">What’s below the surface?</span> Reading strategy: Understanding subject-specific vocabulary. Grammar: Reporting suggestions; asking politely for information. Speaking: Telling engaging personal anecdotes. Writing: Writing a process essay.</li>
+                        <li><span class="italic-text">How do we use patterns?</span> Reading strategy: Recognizing idiomatic language. Grammar: Making and reporting predictions. Writing: Describing a line graph.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="unit-badge"><i>UNIT II</i></span>
+                    <span class="italic-title">Topics & Strategies</span>
+                    <ul>
+                        <li><span class="italic-text">How do we solve problems?</span> Reading strategy: Synthesizing information from multiple sources. Grammar: Describing ability and success; expressing criticism. Life Skill: Thinking outside the box. Speaking: Generating ideas as a group. Writing: Writing a problem-and-solution essay.</li>
+                        <li><span class="italic-text">How does advertising work?</span> Reading strategy: Identifying supporting details. Grammar: Avoiding repetition. Speaking: Asking for more details. Writing: Writing a promotional leaflet for an event.</li>
+                        <li><span class="italic-text">Why do we need other people?</span> Reading strategy: Comparing genres. Grammar: Talking about ongoing actions and states; talking about annoying habits and situations. Listening: Taking notes with mind maps.</li>
+                        <li><span class="italic-text">Project:</span> How can we take care of our mental health? Designing a social media campaign.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="unit-badge"><i>UNIT III</i></span>
+                    <span class="italic-title">Topics & Strategies</span>
+                    <ul>
+                        <li><span class="italic-text">Why are we fascinated by space?</span> Reading strategy: Visualizing a description. Grammar: Talking about purpose. Life Skill: Problem-solving as a team. Listening: Listening for use of the dramatic present. Writing: Making a biography more memorable.</li>
+                        <li><span class="italic-text">What do we know?</span> Reading strategy: Identifying assumptions. Grammar: Hedging. Listening: Using the introduction to help you make notes. Writing: A persuasive blog post.</li>
+                        <li><span class="italic-text">Project:</span> Is it more important to explore space or the oceans?</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="unit-badge"><i>UNIT IV</i></span>
+                    <span class="italic-title">Topics & Strategies</span>
+                    <ul>
+                        <li><span class="italic-text">How should we respond to crime?</span> Reading strategy: Evaluating an author’s arguments. Grammar: Talking about hypothetical situations and consequences. Speaking: Advising about staying safe. Writing: Writing a persuasive cause-and-effect essay.</li>
+                        <li><span class="italic-text">What matters most to you?</span> Reading strategy: Recognizing rhetorical devices. Grammar: Expressing choice with -ever; adding information using relative clauses with which. Life Skill: Developing a growth mindset. Writing: Bringing a story to life.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function toggleFullscreen() {
+            const elem = document.getElementById('dashboard');
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                    elem.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
